@@ -27,8 +27,16 @@ function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<":
 function tags(list) { return `<div class="tags">${list.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>`; }
 function card(p) {
   const badge = p.private ? `<span class="badge private">private · demo on request</span>` : `<span class="badge">open source</span>`;
-  return `<a class="card reveal" href="project.html?p=${p.slug}">
-    ${badge}<h3>${esc(p.name)}</h3><p>${esc(p.pitch)}</p>${tags(p.stack)}</a>`;
+  const links = [
+    p.repo ? `<a class="btn primary" href="${p.repo}" target="_blank" rel="noopener">GitHub</a>` : "",
+    p.pypi ? `<a class="btn" href="${p.pypi}" target="_blank" rel="noopener">PyPI</a>` : ""
+  ].join(" ");
+  const body = (p.problem || p.built || p.decisions) ? `<div class="case">
+      ${p.problem ? `<h3>problem</h3><p>${esc(p.problem)}</p>` : ""}
+      ${p.built ? `<h3>what I built</h3><p>${esc(p.built)}</p>` : ""}
+      ${p.decisions ? `<h3>key decisions</h3><ul>${p.decisions.map(d => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
+      <div class="btns" style="margin-top:16px">${links}</div></div>` : (links ? `<div class="btns">${links}</div>` : "");
+  return `<details class="card reveal"><summary>${badge}<h3>${esc(p.name)}</h3><p>${esc(p.pitch)}</p>${tags(p.stack)}</summary>${body}</details>`;
 }
 
 // Projects grids
@@ -59,29 +67,5 @@ if (trace) {
     let i = 0;
     const step = () => { render(++i); if (i < lines.length) setTimeout(step, 1100); else setTimeout(() => { i = 0; render(0); setTimeout(step, 600); }, 5000); };
     render(0); setTimeout(step, 500);
-  }
-}
-
-// Project detail page
-const detail = document.getElementById("detail");
-if (detail) {
-  const slug = new URLSearchParams(location.search).get("p");
-  const p = PROJECTS.find(x => x.slug === slug);
-  if (!p) detail.innerHTML = `<p>Project not found. <a href="index.html#projects" style="color:var(--accent)">Back to projects</a></p>`;
-  else {
-    document.title = `${p.name} · Jitin Kumar Sengar`;
-    const links = [
-      p.repo ? `<a class="btn primary" href="${p.repo}" target="_blank" rel="noopener">View on GitHub</a>` : "",
-      p.pypi ? `<a class="btn" href="${p.pypi}" target="_blank" rel="noopener">PyPI</a>` : "",
-      p.private ? `<span class="badge private">Private repository — demo on request</span>` : ""
-    ].join(" ");
-    detail.innerHTML = `<a class="back" href="index.html#projects">← all projects</a>
-      <div class="label">// case study</div><h1 style="font-size:40px">${esc(p.name)}</h1>
-      <p class="lead">${esc(p.pitch)}</p>${tags(p.stack)}<div class="btns" style="margin-top:20px">${links}</div>
-      <div class="case">
-        ${p.problem ? `<h3>problem</h3><p>${esc(p.problem)}</p>` : ""}
-        ${p.built ? `<h3>what I built</h3><p>${esc(p.built)}</p>` : ""}
-        ${p.decisions ? `<h3>key decisions</h3><ul>${p.decisions.map(d => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
-      </div>`;
   }
 }

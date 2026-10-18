@@ -158,3 +158,10 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
   .nav nav a.hide-m { display: none; }
   section { padding: 52px 0; }
 }
+
+/* expandable project cards */
+details.card summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 10px; }
+details.card summary::-webkit-details-marker { display: none; }
+details.card[open] { border-color: var(--accent); grid-column: 1 / -1; }
+details.card .case { border-top: 1px solid var(--border); margin-top: 8px; }
+.hint { color: var(--muted); font-size: 13px; font-family: var(--mono); margin: -16px 0 20px; }
