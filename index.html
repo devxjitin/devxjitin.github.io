@@ -1,126 +1,567 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jitin Kumar Sengar · Agentic AI Engineer</title>
-<meta name="description" content="Jitin Kumar Sengar builds AI agents that think, see, listen and act. Creator of the open-source Autourgos agent framework.">
-<meta property="og:title" content="Jitin Kumar Sengar · Agentic AI Engineer">
-<meta property="og:description" content="Creator of Autourgos, an open-source Python framework for LLM agents, computer-use, memory and voice.">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jitin Kumar Sengar · Agentic AI Engineer · Autourgos Creator</title>
+  <meta name="description" content="Jitin Kumar Sengar (devxjitin) — Agentic AI Engineer. Creator of Autourgos, a modular zero-dependency Python framework for LLM agents, computer-use, memory and voice.">
+  <meta property="og:title" content="Jitin Kumar Sengar · Agentic AI Engineer">
+  <meta property="og:description" content="Creator of Autourgos: 17 PyPI packages for autonomous LLM agents, computer-use, memory and realtime voice streaming.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, Orbitron, Noto Sans JP, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header class="nav"><div class="wrap">
-  <a class="logo" href="#top">jitin<span>.dev</span></a>
-  <nav>
-    <a class="hide-m" href="#about">about</a>
-    <a href="#autourgos">autourgos</a>
-    <a href="#projects">projects</a>
-    <a class="hide-m" href="#skills">skills</a>
-    <a href="#contact">contact</a>
-    <button class="icon-btn" id="theme" aria-label="Toggle theme">◐</button>
-  </nav>
-</div></header>
 
-<main id="top">
-<section class="hero"><div class="wrap hero-grid">
-  <div>
-    <div class="label">// agentic ai engineer</div>
-    <h1>I build AI agents that <em>think, see, listen</em> and act.</h1>
-    <p class="lead">Creator of <b>Autourgos</b> — an open-source, zero-dependency Python framework for LLM agents, computer-use, memory, voice and human-in-the-loop control.</p>
-    <div class="btns">
-      <a class="btn primary" href="https://github.com/devxjitin" target="_blank" rel="noopener">View Autourgos on GitHub</a>
-      <a class="btn" href="#contact">Get in touch</a>
+  <!-- Fullscreen Interactive Atmosphere Canvas -->
+  <canvas id="anime-canvas"></canvas>
+  <div class="cyber-grid-overlay" aria-hidden="true"></div>
+
+  <!-- Background Anime Japanese Watermarks -->
+  <div class="bg-kanji-watermark left" aria-hidden="true">自律知能</div>
+  <div class="bg-kanji-watermark right" aria-hidden="true">超越電脳</div>
+
+  <!-- Custom Anime Targeting Cursor -->
+  <div class="custom-cursor-dot" aria-hidden="true"></div>
+  <div class="custom-cursor-ring" aria-hidden="true"></div>
+
+  <!-- Floating Cyber Navigation Bar -->
+  <header class="cyber-nav">
+    <div class="wrap">
+      <nav class="nav-dock">
+        <a class="brand" href="#hero">
+          <div class="brand-dot"></div>
+          <span class="brand-text">JITIN<span style="color: var(--cyan);">.AI</span></span>
+          <span class="brand-jp">自律知能</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#about">// 01 ABOUT</a></li>
+          <li><a href="#autourgos">// 02 AUTOURGOS</a></li>
+          <li><a href="#missions">// 03 MISSIONS</a></li>
+          <li><a href="#guild">// 04 GUILD</a></li>
+          <li><a href="#skills">// 05 SKILLS</a></li>
+          <li><a href="#contact">// 06 TRANSMIT</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button id="particle-mode-btn" class="control-pill" title="Toggle Anime Atmosphere Mode">🌸 SAKURA</button>
+          <button id="sfx-toggle" class="control-pill" title="Toggle Anime Sound Effects">🔇 SFX: OFF</button>
+          <a class="control-pill" href="https://github.com/devxjitin" target="_blank" rel="noopener" style="text-decoration: none;">GitHub ↗</a>
+          <button id="nav-toggle-btn" class="nav-toggle-btn" aria-label="Toggle navigation menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </nav>
     </div>
-    <div class="socials">
-      <a href="https://github.com/devxjitin" target="_blank" rel="noopener">github</a>
-      <a href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener">linkedin</a>
-      <a href="mailto:devxjitin@gmail.com">email</a>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="mobile-nav-drawer">
+    <a href="#about">// 01 ABOUT</a>
+    <a href="#autourgos">// 02 AUTOURGOS</a>
+    <a href="#missions">// 03 MISSIONS</a>
+    <a href="#guild">// 04 GUILD</a>
+    <a href="#skills">// 05 SKILLS</a>
+    <a href="#contact">// 06 TRANSMIT</a>
+  </div>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+      <div class="wrap">
+        <div class="hero-grid">
+          
+          <!-- Hero Left Column: Narrative & Terminal -->
+          <div class="hero-copy">
+            <div class="hero-tag-badge">
+              <span class="status-ping"></span>
+              <span>PROTOCOL: ONLINE</span>
+              <span>·</span>
+              <span>CLASS: SSR AGENTIC ARCHITECT</span>
+              <span>·</span>
+              <span class="jp-sub">自律AI技師</span>
+            </div>
+
+            <h1 class="hero-title">
+              I BUILD AI AGENTS
+              <span class="gradient-anime">THAT THINK, SEE, LISTEN &amp; ACT.</span>
+            </h1>
+
+            <div class="hero-jp-motto">
+              <span>「 思考し、視覚で捉え、音声を聴き、自律して行動する 」</span>
+            </div>
+
+            <p class="hero-lead">
+              Hello, I'm <strong>Jitin Kumar Sengar</strong> (<code>devxjitin</code>). I architect autonomous AI systems from reasoning loops and computer-use tools to multimodal memory and realtime voice streaming. Creator of <strong>Autourgos</strong> — an open-source, zero-dependency Python framework powering modern LLM agents.
+            </p>
+
+            <div class="hero-btns">
+              <a class="cyber-btn primary" href="#autourgos">EXPLORE AUTOURGOS ⚡</a>
+              <a class="cyber-btn secondary" href="#missions">VIEW MISSIONS ⚔️</a>
+              <a class="cyber-btn outline" href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener">LINKEDIN ↗</a>
+            </div>
+
+            <!-- Quick Pip Command Bar -->
+            <div class="quick-pip-box">
+              <span>QUICK INSTALL:</span>
+              <code>pip install autourgos-agent</code>
+              <button id="copy-pip-cmd" class="copy-pip-btn" title="Copy command">COPY 📋</button>
+            </div>
+
+            <!-- Live Agent Trace Terminal HUD -->
+            <div class="hero-agent-terminal">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <span>AUTOURGOS-CORE // AGENT_TRACE.LOG // PID: 2026</span>
+                <div class="terminal-live-badge">LIVE TRACE</div>
+              </div>
+              <div id="agent-terminal-content" class="terminal-body">
+                <!-- Typewriter lines injected here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Right Column: 3D Holographic Avatar Pod -->
+          <div class="hero-stage">
+            <div class="avatar-holo-pod">
+              <div class="holo-ring-bg"></div>
+
+              <div class="holo-card-inner">
+                <!-- Mecha Corner Brackets -->
+                <div class="corner-bracket tl"></div>
+                <div class="corner-bracket tr"></div>
+                <div class="corner-bracket bl"></div>
+                <div class="corner-bracket br"></div>
+
+                <!-- Avatar View Switcher Buttons Pill -->
+                <div class="avatar-switcher-pill">
+                  <button id="btn-view-anime" class="avatar-switch-btn active">🎨 ANIME</button>
+                  <button id="btn-view-photo" class="avatar-switch-btn">📸 REALITY</button>
+                </div>
+
+                <!-- Dual Images Container -->
+                <div class="avatar-view-container">
+                  <img id="avatar-anime" class="avatar-view active" src="anime-avatar.jpg" alt="Jitin Kumar Sengar - Cyber Anime Avatar">
+                  <img id="avatar-photo" class="avatar-view" src="my%20profesional%20Image.jpeg" alt="Jitin Kumar Sengar - Professional Portrait">
+                </div>
+
+                <!-- Holographic Glare & Scanline -->
+                <div class="holo-glare-effect"></div>
+                <div class="holo-scanline"></div>
+
+                <!-- Bottom Telemetry HUD -->
+                <div class="avatar-telemetry-hud">
+                  <div class="telemetry-item">
+                    <b>100%</b>
+                    <span>SYNC RATIO</span>
+                  </div>
+                  <div class="telemetry-item">
+                    <b>ONLINE</b>
+                    <span>SYSTEM STATUS</span>
+                  </div>
+                  <div class="telemetry-item">
+                    <b>v3.11</b>
+                    <span>CORE MATRIX</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TACTICAL POWER STATS BAR -->
+    <section class="stats-section">
+      <div class="wrap">
+        <div class="stats-grid">
+          <div class="stat-node reveal-item">
+            <div class="stat-node-val"><span class="counter-val" data-target="17">0</span>+</div>
+            <div class="stat-node-label">PyPI Packages</div>
+            <div class="stat-node-sub">公開パッケージ · Ecosystem</div>
+          </div>
+
+          <div class="stat-node reveal-item">
+            <div class="stat-node-val"><span class="counter-val" data-target="26">0</span>+</div>
+            <div class="stat-node-label">AI Repositories</div>
+            <div class="stat-node-sub">公開リポジトリ · GitHub</div>
+          </div>
+
+          <div class="stat-node reveal-item">
+            <div class="stat-node-val"><span class="counter-val" data-target="0">0</span></div>
+            <div class="stat-node-label">External Deps</div>
+            <div class="stat-node-sub">完全自律コア · Pure Python</div>
+          </div>
+
+          <div class="stat-node reveal-item">
+            <div class="stat-node-val"><span class="counter-val" data-target="2">0</span>x</div>
+            <div class="stat-node-label">Hackathon Podiums</div>
+            <div class="stat-node-sub">ハッカソン受賞 · StarkMind</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="block-section">
+      <div class="wrap">
+        <div class="section-header reveal-item">
+          <div class="sec-kicker">PROFILE // 自己紹介</div>
+          <h2 class="sec-title">THE ARCHITECT BEHIND <span class="title-accent">THE MACHINES</span></h2>
+          <p class="sec-desc">BCA graduate specializing in Agentic AI architectures, computer-use automation, and realtime conversational intelligence.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-dossier-card reveal-item">
+            <div class="dossier-header">
+              <span class="dossier-title">// AGENTIC SYSTEM DOSSIER</span>
+              <span class="dossier-id">ID: DEV-JITIN-2026</span>
+            </div>
+            <p class="about-text">
+              I'm <strong>Jitin</strong>, an AI Engineer dedicated to crafting end-to-end autonomous systems. I build every layer of an agent: the cognitive reasoning loops (ReAct), the computer-use tools it commands, the vector &amp; episodic memories it retains, and the voice/vision channels it uses to perceive and interact with humans.
+            </p>
+            <p class="about-text">
+              My portfolio bridges open-source infrastructure (the <strong>Autourgos</strong> ecosystem with 17 packages on PyPI), physical AI kiosks (Drishti), computer vision desktop assistants (ULTRON, AirCursor), and production-grade evaluation platforms (CampusGrade).
+            </p>
+            <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a class="cyber-btn primary" href="https://github.com/devxjitin" target="_blank" rel="noopener">GITHUB PROFILE ↗</a>
+              <a class="cyber-btn outline" href="mailto:devxjitin@gmail.com">DISCUSS COLLABORATION ✉️</a>
+            </div>
+          </div>
+
+          <!-- Architecture Blueprint Card -->
+          <div class="blueprint-card reveal-item">
+            <div class="blueprint-diagram">
+              <div class="bp-node">
+                <div class="bp-node-left">
+                  <span class="bp-node-icon">🎙️</span>
+                  <div>
+                    <div class="bp-node-name">Sensory Perception</div>
+                    <div class="bp-node-desc">Gemini Live, Whisper STT, Gemini Vision</div>
+                  </div>
+                </div>
+                <span class="bp-node-badge">INPUT</span>
+              </div>
+
+              <div class="bp-node">
+                <div class="bp-node-left">
+                  <span class="bp-node-icon">🧠</span>
+                  <div>
+                    <div class="bp-node-name">Cognitive Reasoning Loop</div>
+                    <div class="bp-node-desc">ReAct Loop, 11 Lifecycle Hooks, Human Interrupt</div>
+                  </div>
+                </div>
+                <span class="bp-node-badge">CORE</span>
+              </div>
+
+              <div class="bp-node">
+                <div class="bp-node-left">
+                  <span class="bp-node-icon">👁️</span>
+                  <div>
+                    <div class="bp-node-name">Computer-Use &amp; Tool Dispatch</div>
+                    <div class="bp-node-desc">Screenshot Understanding, Mouse, Scroll, OS Shell</div>
+                  </div>
+                </div>
+                <span class="bp-node-badge">ACT</span>
+              </div>
+
+              <div class="bp-node">
+                <div class="bp-node-left">
+                  <span class="bp-node-icon">💾</span>
+                  <div>
+                    <div class="bp-node-name">Persistent Memory Matrix</div>
+                    <div class="bp-node-desc">Vector Store, Local State, Episodic &amp; Semantic</div>
+                  </div>
+                </div>
+                <span class="bp-node-badge">STORE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTOURGOS ECOSYSTEM SECTION -->
+    <section id="autourgos" class="block-section">
+      <div class="wrap">
+        <div class="section-header reveal-item">
+          <div class="sec-kicker">ECOSYSTEM MATRIX // オートウルゴス</div>
+          <h2 class="sec-title">THE <span class="title-accent">AUTOURGOS</span> FRAMEWORK</h2>
+          <p class="sec-desc">A modular, zero-dependency Python ecosystem: one decoupled package per capability. Works with any OpenAI-compatible LLM.</p>
+        </div>
+
+        <!-- Banner with Python Snippet -->
+        <div class="autourgos-hero-banner reveal-item">
+          <div class="autourgos-hero-text">
+            <h3>Pure Python. Zero External Dependencies.</h3>
+            <p>
+              Unlike bloated agent SDKs that lock you into single cloud providers or hide the reasoning loop, Autourgos isolates each capability into lightweight, composable packages. 
+              Bring any model: OpenAI, Groq, Mistral, Together, DeepSeek, or local Ollama/vLLM instances.
+            </p>
+            <div class="hero-btns" style="margin-bottom: 0;">
+              <a class="cyber-btn primary" href="https://pypi.org/project/autourgos-agent/" target="_blank" rel="noopener">PYPI RELEASE v3.11.0 ↗</a>
+              <a class="cyber-btn outline" href="https://github.com/devxjitin/autourgos-agent" target="_blank" rel="noopener">AGENT REPOSITORY ↗</a>
+            </div>
+          </div>
+
+          <div class="code-snippet-box">
+            <span class="cm"># Quickstart: 3-line autonomous agent</span><br>
+            <span class="kw">from</span> autourgos_agent <span class="kw">import</span> <span class="fn">Agent</span><br>
+            <span class="kw">from</span> autourgos_core <span class="kw">import</span> <span class="fn">Toolbox</span><br><br>
+            agent = <span class="fn">Agent</span>(<br>
+            &nbsp;&nbsp;llm=<span class="str">"openai/gpt-4o"</span>,<br>
+            &nbsp;&nbsp;tools=Toolbox.load(<span class="str">"system_tools"</span>)<br>
+            )<br>
+            result = agent.<span class="fn">run</span>(<span class="str">"Execute autonomous workflow"</span>)<br>
+            <span class="fn">print</span>(result.final_answer)
+          </div>
+        </div>
+
+        <!-- Layer Filter Tabs -->
+        <div id="eco-filter-tabs" class="eco-filter-tabs reveal-item">
+          <button class="filter-tab active" data-filter="all">ALL MATRIX (17)</button>
+          <button class="filter-tab" data-filter="Core Framework">🧠 CORE FRAMEWORK</button>
+          <button class="filter-tab" data-filter="LLM Clients">⚡ LLM CLIENTS</button>
+          <button class="filter-tab" data-filter="Agent Middleware">🛡️ MIDDLEWARE</button>
+          <button class="filter-tab" data-filter="Computer-Use Tools">👁️ COMPUTER-USE (CUA)</button>
+          <button class="filter-tab" data-filter="Voice & Realtime I/O">🎙️ VOICE &amp; I/O</button>
+        </div>
+
+        <!-- Dynamic Ecosystem Layers List -->
+        <div id="ecosystem-layers-list" class="eco-layers-container">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED MISSIONS (PROJECTS) SECTION -->
+    <section id="missions" class="block-section">
+      <div class="wrap">
+        <div class="section-header reveal-item">
+          <div class="sec-kicker">TACTICAL MISSIONS // 実績プロジェクト</div>
+          <h2 class="sec-title">FEATURED <span class="title-accent">AI MISSIONS</span></h2>
+          <p class="sec-desc">Flagship architectures: autonomous agent frameworks, Gemini Live realtime voice platforms, and computer-vision copilots.</p>
+        </div>
+
+        <!-- Alternating Featured Mission Cards -->
+        <div id="featured-missions-list" class="missions-stack">
+          <!-- Rendered by app.js from PROJECTS data -->
+        </div>
+
+        <!-- Auxiliary Missions Grid -->
+        <div style="margin-top: 80px;">
+          <div class="section-header reveal-item" style="margin-bottom: 30px;">
+            <div class="sec-kicker">AUXILIARY ARSENAL // 追加プロジェクト</div>
+            <h3 class="sec-title" style="font-size: 28px;">ADDITIONAL EXPERIMENTS &amp; SYSTEMS</h3>
+          </div>
+          <div id="aux-missions-grid" class="aux-missions-grid">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUILD & ACHIEVEMENTS SECTION (TEAM STARKMIND) -->
+    <section id="guild" class="block-section">
+      <div class="wrap">
+        <div class="section-header reveal-item">
+          <div class="sec-kicker">GUILD ARCHIVE // チーム・実績</div>
+          <h2 class="sec-title">TEAM <span class="title-accent">STARKMIND</span> &amp; PODIUMS</h2>
+          <p class="sec-desc">Multidisciplinary engineering lab based in Gurugram turning ambitious intelligence concepts into award-winning reality.</p>
+        </div>
+
+        <div class="guild-card reveal-item">
+          <p class="guild-intro">
+            At Team StarkMind, I direct the Agentic AI initiatives. We build cutting-edge labs, explore experimental self-evolving agents, and test conversational systems under high-stakes hackathon conditions.
+          </p>
+
+          <div class="tourney-podiums-grid">
+            <div class="podium-box">
+              <span class="podium-trophy-icon">🏆</span>
+              <div class="podium-title">3rd Place · INTELLITHON'26</div>
+              <div class="podium-desc">
+                K.R. Mangalam University — Awarded for <strong>VoxAssist</strong>, a realtime conversational AI voice assistant powered by Gemini Live (Apr 2026).
+              </div>
+            </div>
+
+            <div class="podium-box">
+              <span class="podium-trophy-icon">🥇</span>
+              <div class="podium-title">3rd Place · Best Project Award</div>
+              <div class="podium-desc">
+                Awarded for <strong>Vox Agent</strong>, an agentic AI research lab and runtime where I served as Team Lead (Apr 2026).
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="font-size: 14px; color: var(--text-muted);">
+              <strong>FutureXpo Highlights:</strong> RAG Dataset Studio · WhatsApp Automation Agent on Autourgos · SEA (Self-Evolving Agent).
+            </div>
+            <a class="cyber-btn primary" href="https://starkmind.devxjitin.dev" target="_blank" rel="noopener">VISIT STARKMIND LAB ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS POWER MATRIX SECTION -->
+    <section id="skills" class="block-section">
+      <div class="wrap">
+        <div class="section-header reveal-item">
+          <div class="sec-kicker">POWER MATRIX // スキル・技術</div>
+          <h2 class="sec-title">MASTERED <span class="title-accent">PROTOCOLS</span></h2>
+          <p class="sec-desc">A full-stack capability spectrum engineered for high-concurrency, multimodal, autonomous AI operations.</p>
+        </div>
+
+        <div class="skills-spheres-grid">
+          <div class="skill-sphere-card reveal-item">
+            <div class="sphere-icon-row">
+              <span class="sphere-icon">🧠</span>
+              <span class="sphere-power-meter">LEVEL: 96%</span>
+            </div>
+            <h4 class="sphere-title">Agentic AI</h4>
+            <div class="sphere-tags">
+              <span class="anime-tag">ReAct Agents</span>
+              <span class="anime-tag">Tool Calling</span>
+              <span class="anime-tag">Middleware Hooks</span>
+              <span class="anime-tag">Episodic Memory</span>
+              <span class="anime-tag">RAG Pipelines</span>
+              <span class="anime-tag">Human-in-the-Loop</span>
+              <span class="anime-tag">Computer-Use (CUA)</span>
+            </div>
+          </div>
+
+          <div class="skill-sphere-card reveal-item">
+            <div class="sphere-icon-row">
+              <span class="sphere-icon">⚡</span>
+              <span class="sphere-power-meter">LEVEL: 94%</span>
+            </div>
+            <h4 class="sphere-title">LLM &amp; Realtime</h4>
+            <div class="sphere-tags">
+              <span class="anime-tag">OpenAI APIs</span>
+              <span class="anime-tag">Gemini Live</span>
+              <span class="anime-tag">Gemini Vision</span>
+              <span class="anime-tag">Faster-Whisper</span>
+              <span class="anime-tag">WebSocket Streams</span>
+              <span class="anime-tag">Structured Outputs</span>
+            </div>
+          </div>
+
+          <div class="skill-sphere-card reveal-item">
+            <div class="sphere-icon-row">
+              <span class="sphere-icon">🛠️</span>
+              <span class="sphere-power-meter">LEVEL: 95%</span>
+            </div>
+            <h4 class="sphere-title">Backend Architecture</h4>
+            <div class="sphere-tags">
+              <span class="anime-tag">Python (Async)</span>
+              <span class="anime-tag">FastAPI</span>
+              <span class="anime-tag">PostgreSQL</span>
+              <span class="anime-tag">Docker</span>
+              <span class="anime-tag">S3 Storage</span>
+              <span class="anime-tag">Caddy HTTPS</span>
+            </div>
+          </div>
+
+          <div class="skill-sphere-card reveal-item">
+            <div class="sphere-icon-row">
+              <span class="sphere-icon">🎨</span>
+              <span class="sphere-power-meter">LEVEL: 91%</span>
+            </div>
+            <h4 class="sphere-title">Frontend &amp; Mobile</h4>
+            <div class="sphere-tags">
+              <span class="anime-tag">TypeScript</span>
+              <span class="anime-tag">React</span>
+              <span class="anime-tag">Next.js</span>
+              <span class="anime-tag">Tailwind CSS</span>
+              <span class="anime-tag">Kotlin</span>
+              <span class="anime-tag">Jetpack Compose</span>
+              <span class="anime-tag">HTML5 Canvas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT TRANSMISSION SECTION -->
+    <section id="contact" class="block-section">
+      <div class="wrap">
+        <div class="section-header reveal-item">
+          <div class="sec-kicker">TRANSMISSION // 通信接続</div>
+          <h2 class="sec-title">OPEN <span class="title-accent">TRANSMISSION</span></h2>
+          <p class="sec-desc">Available for Agentic AI roles, high-impact collaborations, and forward-thinking research.</p>
+        </div>
+
+        <div class="transmission-console reveal-item">
+          <div class="console-header-bar">
+            <span>TERMINAL://SECURE_TRANSMIT</span>
+            <span>STATUS: READY</span>
+          </div>
+
+          <form id="transmission-form" class="cyber-form">
+            <div class="cyber-input-group">
+              <label>NAME // お名前 <span style="color: var(--cyan);">*</span></label>
+              <input class="cyber-input" name="name" type="text" placeholder="Your name or organization" required>
+            </div>
+
+            <div class="cyber-input-group">
+              <label>EMAIL // メールアドレス <span style="color: var(--cyan);">*</span></label>
+              <input class="cyber-input" name="email" type="email" placeholder="your.email@domain.com" required>
+            </div>
+
+            <div class="cyber-input-group">
+              <label>TRANSMISSION MESSAGE // メッセージ <span style="color: var(--cyan);">*</span></label>
+              <textarea class="cyber-textarea" name="message" placeholder="Describe your mission, project, or role..." required></textarea>
+            </div>
+
+            <button class="cyber-btn primary" type="submit" style="width: 100%; margin-top: 8px;">
+              TRANSMIT MESSAGE ⚡
+            </button>
+          </form>
+
+          <div class="quick-channels-row">
+            <a class="channel-link" href="mailto:devxjitin@gmail.com">devxjitin@gmail.com</a>
+            <span style="color: var(--text-dim);">·</span>
+            <a class="channel-link" href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener">LinkedIn</a>
+            <span style="color: var(--text-dim);">·</span>
+            <a class="channel-link" href="https://github.com/devxjitin" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- CYBER FOOTER -->
+  <footer class="cyber-footer">
+    <div class="wrap">
+      <div class="footer-social-row">
+        <a class="social-icon-btn" href="https://github.com/devxjitin" target="_blank" rel="noopener" aria-label="GitHub Profile">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </a>
+        <a class="social-icon-btn" href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener" aria-label="LinkedIn Profile">
+          <svg viewBox="0 0 24 24"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg>
+        </a>
+        <a class="social-icon-btn" href="mailto:devxjitin@gmail.com" aria-label="Direct Email">
+          <svg viewBox="0 0 24 24"><path d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm10 8.2L3.5 6v.1L12 13l8.5-6.9V6L12 12.2zM3 18h18V8.6l-9 7.3-9-7.3V18z"/></svg>
+        </a>
+      </div>
+
+      <div class="footer-copy">
+        JITIN KUMAR SENGAR // 2026 · ALL RIGHTS RESERVED · <span style="color: var(--cyan);">AUTONOMOUS AI MATRIX</span>
+      </div>
     </div>
-  </div>
-  <div class="term" aria-hidden="true">
-    <div class="term-bar"><i></i><i></i><i></i><span>autourgos-agent · run</span></div>
-    <pre id="trace"></pre>
-  </div>
-</div></section>
+  </footer>
 
-<section id="about" class="about"><div class="wrap about-grid">
-  <div class="reveal">
-    <div class="label">01 // about</div>
-    <h2>Building agents, end to end</h2>
-    <p>I'm Jitin, a BCA graduate focused on Agentic AI. I design the full stack of an agent: the reasoning loop, the tools it calls, the memory it keeps, and the voice and vision it uses to interact with people and computers.</p>
-    <p>My work spans an open-source agent framework, computer-use tools, realtime voice assistants on Gemini Live, RAG pipelines, and production web platforms built with FastAPI, PostgreSQL and Next.js.</p>
-  </div>
-  <div class="stats reveal">
-    <div class="stat"><b>19</b><span>Autourgos repositories</span></div>
-    <div class="stat"><b>26</b><span>public repositories</span></div>
-    <div class="stat"><b>3</b><span>languages: Python, TS, Kotlin</span></div>
-    <div class="stat"><b>0</b><span>third-party deps in the agent core</span></div>
-  </div>
-</div></section>
-
-<section id="autourgos"><div class="wrap">
-  <div class="label">02 // flagship</div>
-  <h2>Autourgos</h2>
-  <div class="flag reveal">
-    <p style="color:var(--muted);max-width:680px">A modular agent framework where every piece — LLM client, memory, skills, human interrupts, computer-use tools, speech — is its own small package. Bring any OpenAI-compatible LLM; no lock-in.</p>
-    <div class="flag-grid">
-      <ul>
-        <li>Thought → Action → Observation loop with native tool-calling mode</li>
-        <li>Async everywhere, parallel tool calls</li>
-        <li>11 lifecycle hooks and approval gates for human-in-the-loop</li>
-        <li>Works with OpenAI, Groq, Mistral, DeepSeek, Ollama, vLLM and more</li>
-      </ul>
-      <div class="code"><span class="c"># install</span>
-pip install autourgos-agent</div>
-    </div>
-    <div class="btns" style="margin-top:22px">
-      <a class="btn primary" href="https://github.com/devxjitin/autourgos-agent" target="_blank" rel="noopener">autourgos-agent on GitHub</a>
-      <a class="btn" href="https://pypi.org/project/autourgos-agent/" target="_blank" rel="noopener">PyPI</a>
-    </div>
-  </div>
-  <h3 class="label" style="margin:36px 0 12px">// the ecosystem — one small package per capability</h3>
-  <div class="layers" id="ecosystem"></div>
-</div></section>
-
-<section id="projects"><div class="wrap">
-  <div class="label">03 // work</div>
-  <h2>Featured projects</h2>
-  <p class="hint">Click a project to expand details.</p>
-  <div class="grid" id="featured"></div>
-  <h2 style="margin-top:56px;font-size:22px">More projects</h2>
-  <div class="grid" id="more"></div>
-</div></section>
-
-<section id="skills"><div class="wrap">
-  <div class="label">04 // stack</div>
-  <h2>Skills</h2>
-  <div class="skills">
-    <div class="skill reveal"><h3>agentic ai</h3><div class="tags"><span class="tag">ReAct agents</span><span class="tag">tool calling</span><span class="tag">middleware</span><span class="tag">memory</span><span class="tag">RAG</span><span class="tag">human-in-the-loop</span><span class="tag">computer-use</span></div></div>
-    <div class="skill reveal"><h3>llm &amp; realtime</h3><div class="tags"><span class="tag">OpenAI APIs</span><span class="tag">Gemini Live</span><span class="tag">Gemini vision</span><span class="tag">Whisper</span><span class="tag">WebSocket streaming</span></div></div>
-    <div class="skill reveal"><h3>backend</h3><div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span></div></div>
-    <div class="skill reveal"><h3>frontend &amp; mobile</h3><div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Next.js</span><span class="tag">Tailwind</span><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span></div></div>
-  </div>
-</div></section>
-
-<section id="contact"><div class="wrap reveal">
-  <div class="label">05 // contact</div>
-  <h2>Let's build something</h2>
-  <p class="lead" style="margin-top:0">Open to Agentic AI roles, collaborations and freelance work.</p>
-  <div class="btns">
-    <a class="btn primary" href="mailto:devxjitin@gmail.com">devxjitin@gmail.com</a>
-    <a class="btn" href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn" href="https://github.com/devxjitin" target="_blank" rel="noopener">GitHub</a>
-  </div>
-</div></section>
-</main>
-
-<footer><div class="wrap"><span>© 2026 Jitin Kumar Sengar</span><span>built with plain HTML, CSS and JS</span></div></footer>
-<script src="data.js"></script>
-<script src="app.js"></script>
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
