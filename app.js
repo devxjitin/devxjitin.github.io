@@ -1,600 +1,56 @@
 /**
- * ANIME CYBERPUNK PORTFOLIO SCRIPT
- * Jitin Kumar Sengar (devxjitin) · Agentic AI Engineer
+ * Portfolio script — Jitin Kumar Sengar (devxjitin)
+ * Renders projects + Autourgos packages from data.js, plus small UI helpers.
  */
-
 (function () {
   'use strict';
 
-  /* ==========================================================================
-     1. Web Audio API Synthesizer (Zero-Dependency Anime UI Sounds)
-     ========================================================================== */
-  let audioCtx = null;
-  let sfxEnabled = false;
-
-  function initAudio() {
-    if (!audioCtx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext) audioCtx = new AudioContext();
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-  }
-
-  function playTone(freq, type = 'sine', duration = 0.08, vol = 0.05) {
-    if (!sfxEnabled || !audioCtx) return;
-    try {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    } catch (e) {
-      // Audio fallback silent
-    }
-  }
-
-  const sfx = {
-    hover: () => playTone(900, 'sine', 0.04, 0.02),
-    click: () => {
-      playTone(520, 'sine', 0.06, 0.06);
-      setTimeout(() => playTone(880, 'sine', 0.08, 0.05), 40);
-    },
-    toggle: () => {
-      playTone(400, 'triangle', 0.05, 0.05);
-      setTimeout(() => playTone(720, 'triangle', 0.08, 0.05), 50);
-    },
-    chime: () => {
-      playTone(587.33, 'sine', 0.1, 0.05); // D5
-      setTimeout(() => playTone(880, 'sine', 0.12, 0.05), 80); // A5
-      setTimeout(() => playTone(1174.66, 'sine', 0.18, 0.06), 160); // D6
-    }
-  };
-
-  const sfxToggleBtn = document.getElementById('sfx-toggle');
-  if (sfxToggleBtn) {
-    sfxToggleBtn.addEventListener('click', () => {
-      initAudio();
-      sfxEnabled = !sfxEnabled;
-      sfxToggleBtn.classList.toggle('active', sfxEnabled);
-      sfxToggleBtn.innerHTML = sfxEnabled ? '🔊 SFX: ON' : '🔇 SFX: OFF';
-      if (sfxEnabled) sfx.chime();
-    });
-  }
-
-  /* ==========================================================================
-     2. Canvas Atmosphere Particle System (Sakura & Cyber Sparks)
-     ========================================================================== */
-  const canvas = document.getElementById('anime-canvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    let currentMode = 'sakura'; // 'sakura' | 'cyber' | 'cosmos'
-    const mouse = { x: width / 2, y: height / 2, vx: 0, vy: 0, lastX: width / 2, lastY: height / 2 };
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.vx = e.clientX - mouse.lastX;
-      mouse.vy = e.clientY - mouse.lastY;
-      mouse.x = mouse.lastX = e.clientX;
-      mouse.y = mouse.lastY = e.clientY;
-    });
-
-    // Sakura Petal Object
-    class SakuraPetal {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * -100;
-        this.size = Math.random() * 8 + 8; // 8 - 16px
-        this.speedY = Math.random() * 1.2 + 0.8;
-        this.speedX = Math.random() * 0.8 - 0.4;
-        this.angle = Math.random() * Math.PI * 2;
-        this.angleSpeed = Math.random() * 0.02 - 0.01;
-        this.flip = Math.random() * Math.PI;
-        this.flipSpeed = Math.random() * 0.03 + 0.01;
-        this.opacity = Math.random() * 0.4 + 0.45;
-        this.color = Math.random() > 0.4 ? '#ff79af' : '#ffb3d0';
-      }
-      update() {
-        this.y += this.speedY;
-        this.x += this.speedX + Math.sin(this.angle) * 0.5;
-        this.angle += this.angleSpeed;
-        this.flip += this.flipSpeed;
-
-        // Mouse breeze influence
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          const force = (120 - dist) / 120;
-          this.x += (dx / dist) * force * 3;
-          this.y += (dy / dist) * force * 3;
-        }
-
-        if (this.y > height + 20 || this.x < -40 || this.x > width + 40) {
-          this.reset();
-        }
-      }
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.scale(Math.cos(this.flip), 1);
-        ctx.globalAlpha = this.opacity;
-
-        // Draw delicate sakura petal path
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.moveTo(0, -this.size / 2);
-        ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size / 1.5, this.size / 2, 0, this.size);
-        ctx.bezierCurveTo(-this.size / 1.5, this.size / 2, -this.size / 2, -this.size / 2, 0, -this.size / 2);
-        ctx.fill();
-
-        ctx.restore();
-      }
-    }
-
-    // Cyber Energy Spark Object
-    class CyberSpark {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 2.5 + 1;
-        this.speedY = -(Math.random() * 1.5 + 0.5);
-        this.speedX = (Math.random() - 0.5) * 0.6;
-        this.color = Math.random() > 0.5 ? '#00f0ff' : '#ff388b';
-        this.alpha = Math.random() * 0.7 + 0.3;
-        this.life = Math.random() * 80 + 40;
-      }
-      update() {
-        this.y += this.speedY;
-        this.x += this.speedX;
-        this.life--;
-        if (this.life <= 0 || this.y < -10) this.reset();
-      }
-      draw() {
-        ctx.save();
-        ctx.globalAlpha = this.alpha * (this.life / 80);
-        ctx.fillStyle = this.color;
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    const petals = Array.from({ length: 42 }, () => new SakuraPetal());
-    const sparks = Array.from({ length: 55 }, () => new CyberSpark());
-
-    function renderParticles() {
-      ctx.clearRect(0, 0, width, height);
-
-      if (currentMode === 'sakura') {
-        petals.forEach((p) => {
-          p.update();
-          p.draw();
-        });
-      } else if (currentMode === 'cyber') {
-        sparks.forEach((s) => {
-          s.update();
-          s.draw();
-        });
-      } else {
-        // Cosmos mode: gentle twinkling stars
-        ctx.save();
-        sparks.slice(0, 30).forEach((s) => {
-          ctx.fillStyle = '#ffffff';
-          ctx.globalAlpha = Math.sin(Date.now() * 0.003 + s.x) * 0.4 + 0.4;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, 1.2, 0, Math.PI * 2);
-          ctx.fill();
-        });
-        ctx.restore();
-      }
-
-      requestAnimationFrame(renderParticles);
-    }
-    renderParticles();
-
-    // Atmosphere Mode Switcher
-    const modeBtn = document.getElementById('particle-mode-btn');
-    if (modeBtn) {
-      modeBtn.addEventListener('click', () => {
-        initAudio();
-        sfx.toggle();
-        if (currentMode === 'sakura') {
-          currentMode = 'cyber';
-          modeBtn.innerHTML = '⚡ CYBER';
-        } else if (currentMode === 'cyber') {
-          currentMode = 'cosmos';
-          modeBtn.innerHTML = '🌌 COSMOS';
-        } else {
-          currentMode = 'sakura';
-          modeBtn.innerHTML = '🌸 SAKURA';
-        }
-      });
-    }
-  }
-
-  /* ==========================================================================
-     3. Custom Anime Cursor
-     ========================================================================== */
-  const cursorDot = document.querySelector('.custom-cursor-dot');
-  const cursorRing = document.querySelector('.custom-cursor-ring');
-
-  if (cursorDot && cursorRing && window.matchMedia('(pointer: fine)').matches) {
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    });
-
-    function loopCursor() {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
-      requestAnimationFrame(loopCursor);
-    }
-    loopCursor();
-
-    const hoverTargets = 'a, button, input, textarea, .filter-tab, .stat-node, .mission-card, .eco-pkg-card';
-    document.querySelectorAll(hoverTargets).forEach((el) => {
-      el.addEventListener('mouseenter', () => {
-        document.body.classList.add('cursor-hover');
-        sfx.hover();
-      });
-      el.addEventListener('mouseleave', () => {
-        document.body.classList.remove('cursor-hover');
-      });
-    });
-  }
-
-  /* ==========================================================================
-     4. Dual Avatar Switcher (Photo vs Anime Avatar)
-     ========================================================================== */
-  const photoView = document.getElementById('avatar-photo');
-  const animeView = document.getElementById('avatar-anime');
-  const btnPhoto = document.getElementById('btn-view-photo');
-  const btnAnime = document.getElementById('btn-view-anime');
-
-  if (btnPhoto && btnAnime && photoView && animeView) {
-    btnPhoto.addEventListener('click', () => {
-      initAudio();
-      sfx.toggle();
-      btnPhoto.classList.add('active');
-      btnAnime.classList.remove('active');
-      photoView.classList.add('active');
-      animeView.classList.remove('active');
-    });
-
-    btnAnime.addEventListener('click', () => {
-      initAudio();
-      sfx.toggle();
-      btnAnime.classList.add('active');
-      btnPhoto.classList.remove('active');
-      animeView.classList.add('active');
-      photoView.classList.remove('active');
-    });
-  }
-
-  /* ==========================================================================
-     5. 3D Parallax Tilt for Avatar Pod & Cards
-     ========================================================================== */
-  const holoPod = document.querySelector('.avatar-holo-pod');
-  if (holoPod) {
-    holoPod.addEventListener('mousemove', (e) => {
-      const rect = holoPod.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      const rotX = (y / (rect.height / 2)) * -10;
-      const rotY = (x / (rect.width / 2)) * 10;
-      holoPod.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-    });
-
-    holoPod.addEventListener('mouseleave', () => {
-      holoPod.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    });
-  }
-
-  /* ==========================================================================
-     6. Live Agent Trace Terminal HUD (Typewriter Simulation)
-     ========================================================================== */
-  const termBody = document.getElementById('agent-terminal-content');
-  if (termBody) {
-    const traces = [
-      { tag: 'INIT', cls: '', text: 'Autourgos Agent runtime initialized with LLM fallback pipeline.' },
-      { tag: 'THOUGHT', cls: 'thought', text: 'Target requested: Build multimodal AI agent with vision, memory & tools.' },
-      { tag: 'ACTION', cls: 'action', text: 'invoke("autourgos-cua-screenshot-understanding", viewport="1920x1080")' },
-      { tag: 'OBS', cls: 'obs', text: 'Spatial target located at coordinate (x: 1420, y: 780). Accuracy: 99.8%.' },
-      { tag: 'ACTION', cls: 'action', text: 'invoke("autourgos-live", stream="audio/websocket", latency="240ms")' },
-      { tag: 'ANSWER', cls: 'ans', text: 'Autonomous loop verified. 17 PyPI modules active with zero stdlib external deps.' }
-    ];
-
-    let traceIdx = 0;
-    function printNextTrace() {
-      if (traceIdx < traces.length) {
-        const item = traces[traceIdx];
-        const line = document.createElement('div');
-        line.className = 'term-line';
-        line.innerHTML = `<span class="term-tag ${item.cls}">[${item.tag}]</span> <span>${item.text}</span>`;
-        termBody.appendChild(line);
-        termBody.scrollTop = termBody.scrollHeight;
-        traceIdx++;
-        setTimeout(printNextTrace, 1400);
-      } else {
-        // Loop after a brief pause
-        setTimeout(() => {
-          termBody.innerHTML = '';
-          traceIdx = 0;
-          printNextTrace();
-        }, 5000);
-      }
-    }
-    setTimeout(printNextTrace, 800);
-  }
-
-  /* ==========================================================================
-     7. Render Featured Projects & Auxiliary Missions
-     ========================================================================== */
   function esc(s) {
     return String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   }
 
-  const featContainer = document.getElementById('featured-missions-list');
-  if (featContainer && window.PROJECTS) {
-    const featuredProjects = window.PROJECTS.filter((p) => p.featured);
-    const CAMPUS_IMG = 'https://raw.githubusercontent.com/devxjitin/CampusGrade/main/docs/screenshots/02-teacher-home.png';
+  /* ---------- Icons (Lucide-style outline paths, inline so no dependency) ---------- */
+  const ICONS = {
+    mic: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>',
+    cpu: '<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>',
+    pointer: '<path d="m9 9 5 12 1.8-5.2L21 14Z"/><path d="M7.2 2.2 8 5.1"/><path d="m5.1 8-2.9-.8"/><path d="M14 4.1 12 6"/><path d="m6 12-1.9 2"/>',
+    database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+    eye: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+    zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+    shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+    trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+    award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+    server: '<rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>',
+    layout: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+    wrench: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h6"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'
+  };
 
-    featContainer.innerHTML = featuredProjects
-      .map((p, idx) => {
-        const decisionsHtml = p.decisions
-          ? `<details class="mission-dossier-details"><summary>MISSION ARCHITECTURE &amp; KEY DECISIONS</summary>
-               <div class="dossier-drawer-body">
-                 ${p.problem ? `<h5>[ PROBLEM STATEMENT ]</h5><p>${esc(p.problem)}</p>` : ''}
-                 <h5>[ ARCHITECTURAL DECISIONS ]</h5>
-                 <ul>${p.decisions.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
-               </div>
-             </details>`
-          : '';
+  const LAYER_ICONS = {
+    'Core Framework': 'cpu',
+    'LLM Clients': 'zap',
+    'Agent Middleware': 'shield',
+    'Computer-Use Tools (CUA)': 'eye',
+    'Voice & Realtime I/O': 'mic'
+  };
 
-        const tagsHtml = `<div class="mission-tags">${(p.stack || [])
-          .map((t) => `<span class="anime-tag">${esc(t)}</span>`)
-          .join('')}</div>`;
-
-        const actionsHtml = `
-          <div class="mission-actions">
-            ${p.repo ? `<a class="cyber-btn primary" href="${p.repo}" target="_blank" rel="noopener">SOURCE REPO ↗</a>` : ''}
-            ${p.pypi ? `<a class="cyber-btn secondary" href="${p.pypi}" target="_blank" rel="noopener">PYPI PACKAGE ↗</a>` : ''}
-            ${p.site ? `<a class="cyber-btn outline" href="${p.site}" target="_blank" rel="noopener">LIVE APP ↗</a>` : ''}
-            ${p.private ? `<span class="cyber-btn outline" style="opacity: 0.7; cursor: default;">🔒 PRIVATE ARCHIVE</span>` : ''}
-          </div>
-        `;
-
-        const visualHtml =
-          p.slug === 'campusgrade'
-            ? `<div class="mission-visual"><img class="mission-visual-img" src="${CAMPUS_IMG}" alt="CampusGrade Interface" loading="lazy"></div>`
-            : `<div class="mission-visual">
-                 <div class="mission-visual-art">
-                   <div class="mission-sigil">${esc(p.name.substring(0, 2).toUpperCase())}</div>
-                   <div class="mission-badge-floater">MISSION // ${esc(p.slug.toUpperCase())}</div>
-                 </div>
-               </div>`;
-
-        return `
-          <article class="mission-card reveal-item" data-tier="${p.tier}">
-            <div class="mission-info">
-              <div class="mission-tier-row">
-                <span class="tier-badge ${p.tier.toLowerCase()}">${p.tier} CLASS</span>
-                <span class="mission-jp-tag">${esc(p.jpName || '自律開発')}</span>
-              </div>
-              <h3 class="mission-title">${esc(p.name)}</h3>
-              <p class="mission-pitch">${esc(p.built || p.pitch)}</p>
-              ${tagsHtml}
-              ${decisionsHtml}
-              ${actionsHtml}
-            </div>
-            ${visualHtml}
-          </article>
-        `;
-      })
-      .join('');
+  function icon(name) {
+    return `<i class="ico" data-icon="${name}"></i>`;
   }
 
-  // Auxiliary Missions Grid
-  const auxContainer = document.getElementById('aux-missions-grid');
-  if (auxContainer && window.PROJECTS) {
-    const auxProjects = window.PROJECTS.filter((p) => !p.featured);
-    auxContainer.innerHTML = auxProjects
-      .map((p) => {
-        const stackTags = (p.stack || []).map((t) => `<span class="anime-tag">${esc(t)}</span>`).join('');
-        const links = [
-          p.repo ? `<a class="cyber-btn primary" style="padding: 6px 14px; font-size: 11px;" href="${p.repo}" target="_blank" rel="noopener">REPO</a>` : '',
-          p.site ? `<a class="cyber-btn outline" style="padding: 6px 14px; font-size: 11px;" href="${p.site}" target="_blank" rel="noopener">SITE</a>` : ''
-        ].join('');
-
-        return `
-          <div class="aux-card reveal-item">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-                <span class="tier-badge ${p.tier.toLowerCase()}" style="font-size: 10px;">${p.tier}</span>
-                <span style="font-family: var(--font-jp); font-size: 11px; color: var(--cyan);">${esc(p.jpName || '')}</span>
-              </div>
-              <h4>${esc(p.name)}</h4>
-              <p>${esc(p.pitch)}</p>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-              <div class="mission-tags">${stackTags}</div>
-              <div style="display: flex; gap: 8px;">${links}</div>
-            </div>
-          </div>
-        `;
-      })
-      .join('');
-  }
-
-  /* ==========================================================================
-     8. Render Autourgos Ecosystem Matrix & Filter Tabs
-     ========================================================================== */
-  const ecoContainer = document.getElementById('ecosystem-layers-list');
-  const tabsContainer = document.getElementById('eco-filter-tabs');
-
-  function renderEcosystem(filterLayer = 'all') {
-    if (!ecoContainer || !window.ECOSYSTEM) return;
-
-    const layersToDisplay =
-      filterLayer === 'all'
-        ? window.ECOSYSTEM
-        : window.ECOSYSTEM.filter((l) => l.layer.toLowerCase().includes(filterLayer.toLowerCase()));
-
-    ecoContainer.innerHTML = layersToDisplay
-      .map((layer) => {
-        const pkgsHtml = layer.pkgs
-          .map((pkg) => {
-            return `
-              <div class="eco-pkg-card">
-                <div>
-                  <div class="pkg-header-row">
-                    <a class="pkg-name-link" href="${window.GH}/${pkg.n}" target="_blank" rel="noopener">${esc(pkg.n)}</a>
-                    ${pkg.v ? `<span class="pkg-ver-badge">v${pkg.v}</span>` : ''}
-                  </div>
-                  <p class="pkg-desc-text">${esc(pkg.d)}</p>
-                </div>
-                <div class="pkg-footer-row">
-                  <span class="pkg-tag-pill">${esc(pkg.tag || 'Python')}</span>
-                  <div class="pkg-action-links">
-                    <a href="${window.GH}/${pkg.n}" target="_blank" rel="noopener">GitHub ↗</a>
-                    ${pkg.v ? `<a href="https://pypi.org/project/${pkg.n}/" target="_blank" rel="noopener">PyPI ↗</a>` : ''}
-                  </div>
-                </div>
-              </div>
-            `;
-          })
-          .join('');
-
-        return `
-          <div class="eco-layer-block reveal-item">
-            <div class="eco-layer-head">
-              <div class="eco-layer-title">
-                <span>${layer.icon}</span>
-                <span>${esc(layer.layer)}</span>
-              </div>
-              <span class="eco-layer-jp">${esc(layer.jpLayer)}</span>
-            </div>
-            <div class="eco-pkgs-grid">${pkgsHtml}</div>
-          </div>
-        `;
-      })
-      .join('');
-
-    observeReveals();
-  }
-
-  if (tabsContainer) {
-    tabsContainer.querySelectorAll('.filter-tab').forEach((tab) => {
-      tab.addEventListener('click', () => {
-        initAudio();
-        sfx.click();
-        tabsContainer.querySelectorAll('.filter-tab').forEach((t) => t.classList.remove('active'));
-        tab.classList.add('active');
-        const filter = tab.getAttribute('data-filter') || 'all';
-        renderEcosystem(filter);
-      });
+  function paintIcons(root = document) {
+    root.querySelectorAll('i.ico[data-icon]:empty').forEach((el) => {
+      const paths = ICONS[el.getAttribute('data-icon')];
+      if (!paths) return;
+      el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
     });
   }
 
-  renderEcosystem('all');
-
-  /* ==========================================================================
-     9. Pip Command Copy with Confetti / Anime Reaction
-     ========================================================================== */
-  const copyPipBtn = document.getElementById('copy-pip-cmd');
-  if (copyPipBtn) {
-    copyPipBtn.addEventListener('click', () => {
-      initAudio();
-      sfx.chime();
-      const codeText = 'pip install autourgos-agent';
-      navigator.clipboard.writeText(codeText).then(() => {
-        copyPipBtn.innerHTML = 'COPIED! ✨';
-        copyPipBtn.style.background = 'var(--magenta)';
-        copyPipBtn.style.color = '#fff';
-        setTimeout(() => {
-          copyPipBtn.innerHTML = 'COPY 📋';
-          copyPipBtn.style.background = '';
-          copyPipBtn.style.color = '';
-        }, 2200);
-      });
-    });
-  }
-
-  /* ==========================================================================
-     10. Animated Counter Numbers
-     ========================================================================== */
-  function animateValue(elem, start, end, duration) {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const current = Math.floor(progress * (end - start) + start);
-      elem.innerText = current;
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      } else {
-        elem.innerText = end;
-      }
-    };
-    window.requestAnimationFrame(step);
-  }
-
-  const statVals = document.querySelectorAll('.counter-val');
-  let animatedStats = false;
-  const statsObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && !animatedStats) {
-          animatedStats = true;
-          statVals.forEach((el) => {
-            const target = parseInt(el.getAttribute('data-target') || '0', 10);
-            animateValue(el, 0, target, 1400);
-          });
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
-
-  const statsSection = document.querySelector('.stats-section');
-  if (statsSection) statsObserver.observe(statsSection);
-
-  /* ==========================================================================
-     11. Scroll Reveal Animations
-     ========================================================================== */
+  /* ---------- Scroll reveal ---------- */
   function observeReveals() {
-    const items = document.querySelectorAll('.reveal-item:not(.revealed)');
+    const items = document.querySelectorAll('.reveal:not(.revealed)');
     if (!('IntersectionObserver' in window)) {
       items.forEach((i) => i.classList.add('revealed'));
       return;
@@ -612,46 +68,270 @@
     );
     items.forEach((i) => io.observe(i));
   }
-  observeReveals();
 
-  /* ==========================================================================
-     12. Mobile Menu Toggle
-     ========================================================================== */
-  const navToggleBtn = document.getElementById('nav-toggle-btn');
-  const mobileDrawer = document.getElementById('mobile-drawer');
+  /* ---------- Generated art for projects without a screenshot ---------- */
+  const ART = {
+    'autourgos-agent': { icon: 'cpu', tint: '#fbd9e0' },
+    ultron: { icon: 'eye', tint: '#d9e4fb' },
+    drishti: { icon: 'mic', tint: '#fbeab8' },
+    examina: { icon: 'pointer', tint: '#d6f0e0' }
+  };
 
-  if (navToggleBtn && mobileDrawer) {
-    navToggleBtn.addEventListener('click', () => {
-      initAudio();
-      sfx.click();
-      mobileDrawer.classList.toggle('open');
-    });
+  function projectArt(p) {
+    const art = ART[p.slug] || { icon: 'cpu', tint: '#fbd9e0' };
+    const chips = (p.stack || []).slice(0, 3).map((t) => `<li>${esc(t)}</li>`).join('');
+    return `
+      <div class="art-card" style="--tint:${art.tint}" aria-hidden="true">
+        <div class="art-bar"><i></i><i></i><i></i></div>
+        <div class="art-main">
+          <span class="art-icon">${icon(art.icon)}</span>
+          <strong>${esc(p.name)}</strong>
+          <ul class="chips">${chips}</ul>
+        </div>
+      </div>`;
+  }
 
-    mobileDrawer.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
+  /* ---------- Featured projects ---------- */
+  const featContainer = document.getElementById('featured-missions-list');
+  if (featContainer && window.PROJECTS) {
+    const CAMPUS_IMG = 'https://raw.githubusercontent.com/devxjitin/CampusGrade/main/docs/screenshots/02-teacher-home.png';
+
+    featContainer.innerHTML = window.PROJECTS.filter((p) => p.featured)
+      .map((p, idx) => {
+        const details = p.decisions
+          ? `<details>
+               <summary>How it works &amp; why I built it this way</summary>
+               <div class="detail-body">
+                 ${p.problem ? `<h5>The problem</h5><p>${esc(p.problem)}</p>` : ''}
+                 <h5>Key decisions</h5>
+                 <ul>${p.decisions.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
+               </div>
+             </details>`
+          : '';
+
+        const links = [
+          p.repo ? `<a class="btn primary" href="${p.repo}" target="_blank" rel="noopener">Source ↗</a>` : '',
+          p.pypi ? `<a class="btn" href="${p.pypi}" target="_blank" rel="noopener">PyPI ↗</a>` : '',
+          p.site ? `<a class="btn" href="${p.site}" target="_blank" rel="noopener">Live ↗</a>` : '',
+          p.private ? `<span class="private-note">${icon('lock')} Private project. Happy to walk you through it.</span>` : ''
+        ].join('');
+
+        const art =
+          p.slug === 'campusgrade'
+            ? `<img src="${CAMPUS_IMG}" alt="CampusGrade teacher dashboard screenshot" loading="lazy">`
+            : projectArt(p);
+
+        return `
+          <article class="project reveal">
+            <div>
+              <p class="project-no">Story ${String(idx + 1).padStart(2, '0')}</p>
+              <h3>${esc(p.name)}</h3>
+              <p>${esc(p.built || p.pitch)}</p>
+              <ul class="chips">${(p.stack || []).map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+              ${details}
+              <div class="btn-row">${links}</div>
+            </div>
+            <div class="panel project-art">${art}</div>
+          </article>`;
+      })
+      .join('');
+  }
+
+  /* ---------- Smaller projects ---------- */
+  const auxContainer = document.getElementById('aux-missions-grid');
+  if (auxContainer && window.PROJECTS) {
+    const auxProjects = window.PROJECTS.filter((p) => !p.featured);
+    const auxHead = document.getElementById('aux-head');
+    if (auxHead) auxHead.hidden = auxProjects.length === 0;
+    auxContainer.innerHTML = auxProjects
+      .map((p) => {
+        const links = [
+          p.repo ? `<a class="btn small" href="${p.repo}" target="_blank" rel="noopener">Repo ↗</a>` : '',
+          p.site ? `<a class="btn small" href="${p.site}" target="_blank" rel="noopener">Site ↗</a>` : '',
+          p.private && !p.site ? `<span class="private-note">${icon('lock')} Private</span>` : ''
+        ].join('');
+        return `
+          <article class="panel aux reveal">
+            <div>
+              <h4>${esc(p.name)}</h4>
+              <p>${esc(p.pitch)}</p>
+            </div>
+            <ul class="chips">${(p.stack || []).map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
+            <div class="aux-links">${links}</div>
+          </article>`;
+      })
+      .join('');
+  }
+
+  /* ---------- Autourgos packages ---------- */
+  const ecoContainer = document.getElementById('ecosystem-layers-list');
+  const tabsContainer = document.getElementById('eco-filter-tabs');
+
+  function renderEcosystem(filterLayer = 'all') {
+    if (!ecoContainer || !window.ECOSYSTEM) return;
+    const layers =
+      filterLayer === 'all'
+        ? window.ECOSYSTEM
+        : window.ECOSYSTEM.filter((l) => l.layer.toLowerCase().includes(filterLayer.toLowerCase()));
+
+    ecoContainer.innerHTML = layers
+      .map((layer) => {
+        const pkgs = layer.pkgs
+          .map(
+            (pkg) => `
+            <div class="pkg">
+              <div>
+                <div class="pkg-top">
+                  <a class="pkg-name" href="${window.GH}/${pkg.n}" target="_blank" rel="noopener">${esc(pkg.n)}</a>
+                  ${pkg.v ? `<span class="pkg-ver">v${esc(pkg.v)}</span>` : ''}
+                </div>
+                <p>${esc(pkg.d)}</p>
+              </div>
+              <div class="pkg-foot">
+                <span class="chip">${esc(pkg.tag || 'Python')}</span>
+                <span>
+                  <a href="${window.GH}/${pkg.n}" target="_blank" rel="noopener">GitHub</a>${pkg.v ? `<a href="https://pypi.org/project/${pkg.n}/" target="_blank" rel="noopener">PyPI</a>` : ''}
+                </span>
+              </div>
+            </div>`
+          )
+          .join('');
+
+        return `
+          <div class="eco-layer reveal">
+            <div class="eco-layer-head">${icon(LAYER_ICONS[layer.layer] || 'cpu')}<h4>${esc(layer.layer)}</h4></div>
+            <div class="eco-pkgs">${pkgs}</div>
+          </div>`;
+      })
+      .join('');
+
+    paintIcons(ecoContainer);
+    observeReveals();
+  }
+
+  if (tabsContainer) {
+    tabsContainer.querySelectorAll('.tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabsContainer.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderEcosystem(tab.getAttribute('data-filter') || 'all');
       });
     });
   }
+  renderEcosystem('all');
 
-  /* ==========================================================================
-     13. Contact Form Submission
-     ========================================================================== */
-  const contactForm = document.getElementById('transmission-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+  /* ---------- Copy pip command ---------- */
+  const copyBtn = document.getElementById('copy-pip-cmd');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('pip install autourgos-agent autourgos-openaichat').then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => (copyBtn.textContent = 'Copy'), 2000);
+      }).catch(() => {});
+    });
+  }
+
+  /* ---------- Mobile menu ---------- */
+  const toggle = document.getElementById('nav-toggle-btn');
+  const links = document.getElementById('nav-links');
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    links.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      })
+    );
+  }
+
+  /* ---------- Contact form (opens email app) ---------- */
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      initAudio();
-      sfx.chime();
-      const fd = new FormData(contactForm);
+      const fd = new FormData(form);
       const name = fd.get('name') || '';
       const email = fd.get('email') || '';
       const msg = fd.get('message') || '';
-
-      const subject = encodeURIComponent(`[TRANSMISSION] Portfolio Contact from ${name}`);
-      const body = encodeURIComponent(`${msg}\n\n// IDENTIFIER:\nName: ${name}\nEmail: ${email}`);
-
+      const subject = encodeURIComponent(`Portfolio message from ${name}`);
+      const body = encodeURIComponent(`${msg}\n\n${name}\n${email}`);
       window.location.href = `mailto:devxjitin@gmail.com?subject=${subject}&body=${body}`;
     });
   }
+
+  /* ---------- Education photos: styled fallback when a photo is missing ---------- */
+  document.querySelectorAll('.edu-art img').forEach((img) => {
+    img.addEventListener('error', () => {
+      const box = document.createElement('div');
+      box.className = 'art-fallback';
+      box.setAttribute('aria-hidden', 'true');
+      box.textContent = img.getAttribute('data-fallback') || '';
+      img.replaceWith(box);
+    });
+  });
+
+  /* ---------- Photo lightbox ---------- */
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  if (lightbox && lightboxImg && typeof lightbox.showModal === 'function') {
+    document.querySelectorAll('.shot').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const thumb = btn.querySelector('img');
+        lightboxImg.src = btn.getAttribute('data-full');
+        lightboxImg.alt = thumb ? thumb.alt : '';
+        lightbox.showModal();
+      });
+    });
+    lightbox.querySelector('.lightbox-close').addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.close();
+    });
+  }
+
+  /* ---------- Sakura burst on click (fine pointers, motion allowed) ---------- */
+  if (window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.addEventListener('click', (e) => {
+      for (let i = 0; i < 6; i++) {
+        const petal = document.createElement('span');
+        const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.6;
+        const dist = 26 + Math.random() * 22;
+        petal.className = 'petal';
+        petal.style.left = e.clientX + 'px';
+        petal.style.top = e.clientY + 'px';
+        petal.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+        petal.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+        petal.style.setProperty('--rot', Math.round(Math.random() * 240 - 120) + 'deg');
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 750);
+      }
+    });
+  }
+
+  /* ---------- Highlight the menu item for the section in view ---------- */
+  const navAnchors = [...document.querySelectorAll('#nav-links a')];
+  const spyTargets = navAnchors
+    .map((a) => ({ a, section: document.querySelector(a.getAttribute('href')) }))
+    .filter((t) => t.section);
+
+  function updateActiveNav() {
+    let current = null;
+    spyTargets.forEach((t) => {
+      if (t.section.getBoundingClientRect().top <= 140) current = t;
+    });
+    spyTargets.forEach((t) => {
+      const on = t === current;
+      t.a.classList.toggle('active', on);
+      if (on) t.a.setAttribute('aria-current', 'true');
+      else t.a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('resize', updateActiveNav);
+  updateActiveNav();
+
+  paintIcons();
+  observeReveals();
 })();
