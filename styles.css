@@ -293,7 +293,7 @@ ul, ol { list-style: none; }
 /* ---------- Skills ---------- */
 .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
 .skill-wide { grid-column: 1 / -1; }
-.tool-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 28px; margin-top: 10px; }
+.tool-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px 28px; margin-top: 10px; }
 .tool-groups .skill-proof { margin: 0 0 10px; }
 .skill h3 { font-family: var(--font-head); font-size: 1.25rem; }
 .skill-proof { font-family: var(--font-hand); color: var(--sakura); margin: 2px 0 14px; }
@@ -414,4 +414,28 @@ ul, ol { list-style: none; }
 
 .project.future .project-art { order: 0; transform: rotate(1deg); }
 
-.ach-team b { margin-right: .5em; }
+.ach-team b { margin-right: .35em; }
+
+.shot-cert { background: #fff; }
+.shot-cert img { object-fit: contain; object-position: center; }
+
+/* ---------- Achievements in one column with categories ---------- */
+.achievements { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.ach-cat { font-family: var(--font-head); font-weight: 900; font-size: 1.4rem; margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+.ach-cat:first-child { margin-top: 0; }
+.ach-cat span { font: 700 .8rem var(--font-head); background: var(--ink); color: var(--paper); border-radius: 999px; padding: 1px 10px; }
+.ach-wide .gallery { flex: 0 0 48%; border-bottom: 0; border-right: var(--line); align-content: start; }
+@media (max-width: 900px) {
+  .ach-wide .gallery { flex-basis: auto; border-right: 0; border-bottom: var(--line); }
+}
+
+/* Alternate image side: odd cards image left, even cards image right */
+@media (min-width: 901px) {
+  .achievements > article.achievement:nth-of-type(even) { flex-direction: row-reverse; }
+  .achievements > article.achievement:nth-of-type(even) .gallery,
+  .achievements > article.achievement:nth-of-type(even) .cert { border-right: 0; border-left: var(--line); }
+}
+
+.cert-portrait .shot { width: auto; max-width: 100%; }
+.cert-portrait .shot img { width: auto; max-width: 100%; max-height: 460px; margin: 0 auto; }
+.ach-wide .cert.cert-portrait .shot { width: auto; justify-self: center; }
