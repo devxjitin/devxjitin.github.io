@@ -73,3 +73,4 @@ Naye entries neeche add hote hain. Purani lines edit mat karo.
 [2026-10-18 14:14] [Claude] [Update: stats refreshed, count-up, scroll progress bar, tech marquee, highlight sweep, hover lift]
 [2026-10-18 14:16] [Claude] [Add: hero photo animation (entrance, float, sway, parallax, glints)]
 [2026-10-18 14:17] [Claude] [Add: custom crimson/ink scrollbar]
+[2026-10-18 14:20] [Claude] [Refactor: folder structure (assets/css, assets/js, assets/images, docs), canonical meta for portfolio.devxjitin.dev]
