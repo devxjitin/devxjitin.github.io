@@ -1,5 +1,5 @@
 /**
- * Portfolio script — Jitin Kumar Sengar (devxjitin)
+ * Portfolio script - Jitin Kumar Sengar (devxjitin)
  * Renders projects + Autourgos packages from data.js, plus small UI helpers.
  */
 (function () {
@@ -74,7 +74,8 @@
     'autourgos-agent': { icon: 'cpu', tint: '#fbd9e0' },
     ultron: { icon: 'eye', tint: '#d9e4fb' },
     drishti: { icon: 'mic', tint: '#fbeab8' },
-    examina: { icon: 'pointer', tint: '#d6f0e0' }
+    examina: { icon: 'pointer', tint: '#d6f0e0' },
+    portfolio: { icon: 'layout', tint: '#e6dcf7' }
   };
 
   function projectArt(p) {

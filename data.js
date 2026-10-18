@@ -18,7 +18,7 @@ window.PROJECTS = [
     problem: "Most agent frameworks pull in heavy SDKs, lock you to one provider, or hide the reasoning loop. I wanted a small, transparent, and ultra-fast agent core that runs on any LLM and stays effortless to extend.",
     built: "A modular framework of small, composable packages. Its agent loop alternates Thought, Action and Observation until it reaches a verified Final Answer, and the only dependency is `autourgos-core`, a stdlib-only utility library.",
     decisions: [
-      "Works with anything exposing .invoke() / .ainvoke(): OpenAI, Groq, Together, Mistral, DeepSeek, Perplexity, Ollama, LM Studio, vLLM.",
+      "Works with anything exposing .invoke() / .ainvoke(), including OpenAI, Groq, Together, Mistral, DeepSeek, Perplexity, Ollama, LM Studio, vLLM.",
       "JSON-driven loop plus native structured tool-calling mode, with parallel tool execution.",
       "Every single method has an async twin (a-prefixed) for non-blocking realtime execution.",
       "CallbackHandler middleware with 11 lifecycle hooks, sync or async, plus approval callbacks for human-in-the-loop gates.",
@@ -38,13 +38,13 @@ window.PROJECTS = [
     featured: true,
     stats: { arch: "Next.js + FastAPI", sim: "70% Dup Cap", privacy: "Zero-PII Leak" },
     problem: "Educators need to collect GitHub-based coding assignments, catch copied code across batches, and grade against complex rubrics without leaking student identity to external AI tools.",
-    built: "A production platform: teachers publish assignments with structured rubrics, students submit repository URLs, and the system snapshots and analyzes submissions with plagiarism scoring and rubric-guided AI evaluation.",
+    built: "A production platform where teachers publish assignments with structured rubrics, students submit repository URLs, and the system snapshots and analyzes submissions with plagiarism scoring and rubric-guided AI evaluation.",
     decisions: [
       "Repository is cloned and analyzed once at the deadline or upon evaluation start, ensuring post-deadline pushes never affect results.",
       "Near-duplicate code above 70% similarity automatically caps both submissions at 50% marks until reviewed by an instructor.",
       "AI prompts never contain names, roll numbers, emails, or GitHub logins. Students appear as Student-NN, and the mapping resides strictly in a signed browser token.",
-      "Comprehensive multi-tenant hierarchy: programs, batches, sections, subjects, session rollover, and per-area admin access control.",
-      "Production-grade infrastructure: async FastAPI, separate Celery/worker queues, S3-compatible storage, Caddy HTTPS, and nightly automated backups."
+      "Comprehensive multi-tenant hierarchy covering programs, batches, sections, subjects, session rollover, and per-area admin access control.",
+      "Production-grade infrastructure with async FastAPI, separate Celery/worker queues, S3-compatible storage, Caddy HTTPS, and nightly automated backups."
     ]
   },
   {
@@ -102,6 +102,25 @@ window.PROJECTS = [
       "Runs quietly in the background as a single installable Windows executable built with PyInstaller."
     ]
   },
+  {
+    slug: "portfolio",
+    name: "This Portfolio",
+    tier: "SSR",
+    category: "web",
+    pitch: "The site you are on right now, a hand-built, framework-free portfolio in a warm manga style.",
+    stack: ["HTML", "CSS", "JavaScript"],
+    featured: true,
+    repo: GH + "/devxjitin.github.io",
+    site: "https://devxjitin.github.io",
+    problem: "Most developer portfolios are templates that look the same and say very little about the person. I wanted one that feels like me, loads fast and is easy to keep up to date.",
+    built: "A static site written in plain HTML, CSS and vanilla JavaScript, with no framework and no build step. Projects and Autourgos packages are rendered from a single data file, and it is hosted on GitHub Pages.",
+    decisions: [
+      "No framework or bundler, so there is nothing to install and the whole site stays small and fast.",
+      "One data.js file feeds the project cards and the Autourgos package list, so adding a project is a single edit.",
+      "Inline SVG icons and generated project art instead of icon libraries or stock images.",
+      "Responsive layout, keyboard-friendly focus styles and reduced-motion support."
+    ]
+  }
 ];
 
 window.ECOSYSTEM = [
@@ -111,9 +130,9 @@ window.ECOSYSTEM = [
     icon: "🧠",
     color: "#00f0ff",
     pkgs: [
-      { n: "autourgos-core", v: "0.11.0", d: "Stdlib-only shared utilities: retry/backoff, scoped state, SQLite helpers. Pure Python zero dependencies.", tag: "Zero-Dep Core" },
+      { n: "autourgos-core", v: "0.11.0", d: "Stdlib-only shared utilities such as retry/backoff, scoped state, SQLite helpers. Pure Python zero dependencies.", tag: "Zero-Dep Core" },
       { n: "autourgos-agent", v: "3.11.0", d: "General-purpose ReAct LLM agent with 11 lifecycle hooks, parallel tool calling, and pause/resume.", tag: "Flagship Agent" },
-      { n: "autourgos-starter", v: "1.0.9", d: "Beginner-friendly bootstrap bundle: one pip install, one function call, instant working autonomous agent.", tag: "Quickstart" }
+      { n: "autourgos-starter", v: "1.0.9", d: "Beginner-friendly bootstrap bundle with one pip install, one function call and an instant working autonomous agent.", tag: "Quickstart" }
     ]
   },
   {
@@ -134,7 +153,7 @@ window.ECOSYSTEM = [
     icon: "🛡️",
     color: "#ffe600",
     pkgs: [
-      { n: "autourgos-memory", v: "2.1.0", d: "Modular memory engines: buffer, local, semantic, summary, token, vector, and episodic storage.", tag: "Multi-Memory" },
+      { n: "autourgos-memory", v: "2.1.0", d: "Modular memory engines covering buffer, local, semantic, summary, token, vector, and episodic storage.", tag: "Multi-Memory" },
       { n: "autourgos-skills", v: "1.3.0", d: "Lazy-loading skill instructions only when demanded, preserving LLM context token windows.", tag: "Context Optimization" },
       { n: "autourgos-hcix", v: "3.3.0", d: "Human-in-the-loop interrupt middleware with global hotkey steering and approval checkpoints.", tag: "Human Oversight" }
     ]
@@ -145,8 +164,8 @@ window.ECOSYSTEM = [
     icon: "👁️",
     color: "#7928ca",
     pkgs: [
-      { n: "autourgos-cua-coordinate-tool", v: "1.2.1", d: "Visual spatial coordinate resolver: locates described UI elements in screen captures with pixel accuracy.", tag: "Spatial Vision" },
-      { n: "autourgos-cua-mouse-click-tool", v: "1.0.0", d: "Deterministic mouse click dispatcher: left/right/double click at target pixel coordinates.", tag: "OS Automation" },
+      { n: "autourgos-cua-coordinate-tool", v: "1.2.1", d: "Visual spatial coordinate resolver that locates described UI elements in screen captures with pixel accuracy.", tag: "Spatial Vision" },
+      { n: "autourgos-cua-mouse-click-tool", v: "1.0.0", d: "Deterministic mouse click dispatcher for left/right/double click at target pixel coordinates.", tag: "OS Automation" },
       { n: "autourgos-cua-scroll-tool", v: "1.0.0", d: "Horizontal & vertical viewport scrolling with configurable velocity and friction curves.", tag: "Screen Nav" },
       { n: "autourgos-cua-screenshot-understanding-tool", d: "Multimodal LLM-grounded screenshot Q&A with visual bounding box segmentation.", tag: "Visual Grounding" }
     ]

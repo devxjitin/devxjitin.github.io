@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Warm manga portfolio — Jitin Kumar Sengar
+   Warm manga portfolio - Jitin Kumar Sengar
    Paper-cream pages, ink outlines, halftone dots, one sakura accent.
    ========================================================================== */
 
@@ -196,7 +196,7 @@ ul, ol { list-style: none; }
   margin-top: 18px; padding: 8px 8px 8px 14px;
   background: var(--ink); color: var(--paper); border-radius: 10px;
 }
-.install code { font-family: var(--font-mono); font-size: .9rem; overflow-x: auto; white-space: nowrap; }
+.install code { font-family: var(--font-mono); font-size: .88rem; white-space: normal; overflow-wrap: anywhere; line-height: 1.5; }
 .install .btn { box-shadow: none; border-width: 2px; }
 .code {
   font-family: var(--font-mono); font-size: .85rem; line-height: 1.8;
@@ -411,3 +411,7 @@ ul, ol { list-style: none; }
   .ach-wide { flex-direction: column; }
   .ach-wide .cert { flex-basis: auto; border-right: 0; border-bottom: var(--line); }
 }
+
+.project.future .project-art { order: 0; transform: rotate(1deg); }
+
+.ach-team b { margin-right: .5em; }
