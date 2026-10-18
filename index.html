@@ -11,11 +11,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Yomogi&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <header class="site-nav">
     <div class="wrap nav-row">
@@ -64,6 +65,7 @@
             <figcaption>the real me</figcaption>
           </figure>
           <div class="bubble">Ask me about agents!</div>
+          <i class="glint" aria-hidden="true"></i><i class="glint" aria-hidden="true"></i><i class="glint" aria-hidden="true"></i><i class="glint" aria-hidden="true"></i><i class="glint" aria-hidden="true"></i>
         </div>
       </div>
     </section>
@@ -71,12 +73,21 @@
     <!-- QUICK FACTS -->
     <section class="facts">
       <div class="wrap facts-row">
-        <div class="fact"><b>17</b><span>packages on PyPI</span></div>
-        <div class="fact"><b>26</b><span>public repos</span></div>
-        <div class="fact"><b>11</b><span>lifecycle hooks in the Autourgos agent</span></div>
-        <div class="fact"><b>2</b><span>hackathon podium finishes</span></div>
+        <div class="fact"><b data-target="17">17</b><span>packages on PyPI</span></div>
+        <div class="fact"><b data-target="27">27</b><span>public repos</span></div>
+        <div class="fact"><b data-target="10">10</b><span>achievements and certificates</span></div>
+        <div class="fact"><b data-target="2">2</b><span>podium finishes</span></div>
+        <div class="fact"><b data-target="1">1</b><span>IEEE conference paper</span></div>
+        <div class="fact"><b data-target="2">2</b><span>internships</span></div>
       </div>
     </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group"><span>Python</span><span>C++</span><span>Java</span><span>FastAPI</span><span>React</span><span>TypeScript</span><span>Kotlin</span><span>PostgreSQL</span><span>Docker</span><span>Gemini</span><span>LLMs</span><span>RAG</span><span>Ollama</span><span>Qt</span><span>Tkinter</span><span>Git</span><span>CI/CD</span></div>
+        <div class="marquee-group"><span>Python</span><span>C++</span><span>Java</span><span>FastAPI</span><span>React</span><span>TypeScript</span><span>Kotlin</span><span>PostgreSQL</span><span>Docker</span><span>Gemini</span><span>LLMs</span><span>RAG</span><span>Ollama</span><span>Qt</span><span>Tkinter</span><span>Git</span><span>CI/CD</span></div>
+      </div>
+    </div>
 
     <!-- ABOUT -->
     <section id="about" class="block">
@@ -249,7 +260,7 @@ result = agent.<span class="fn">invoke</span>(<span class="str">"What is 123 + 4
             <ul class="chips"><li>Crawl</li><li>Clean</li><li>Check</li><li>RAG</li></ul>
           </div>
           <div class="panel project-art">
-            <div class="art-card" style="--tint:#d9e4fb" aria-hidden="true">
+            <div class="art-card" style="--tint:#dde3f2" aria-hidden="true">
               <div class="art-bar"><i></i><i></i><i></i></div>
               <div class="art-main">
                 <span class="art-icon"><i class="ico" data-icon="database"></i></span>
@@ -527,7 +538,7 @@ result = agent.<span class="fn">invoke</span>(<span class="str">"What is 123 + 4
 
   <footer class="site-footer">
     <div class="wrap">
-      <p>© 2026 Jitin Kumar Sengar. Made by hand in Gurugram.</p>
+      <p>© 2026 · Made with ❤️ by Jitin Kumar Sengar</p>
     </div>
   </footer>
 

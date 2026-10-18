@@ -71,15 +71,15 @@
 
   /* ---------- Generated art for projects without a screenshot ---------- */
   const ART = {
-    'autourgos-agent': { icon: 'cpu', tint: '#fbd9e0' },
-    ultron: { icon: 'eye', tint: '#d9e4fb' },
-    drishti: { icon: 'mic', tint: '#fbeab8' },
-    examina: { icon: 'pointer', tint: '#d6f0e0' },
-    portfolio: { icon: 'layout', tint: '#e6dcf7' }
+    'autourgos-agent': { icon: 'cpu', tint: '#dde3f2' },
+    ultron: { icon: 'eye', tint: '#e3dfd2' },
+    drishti: { icon: 'mic', tint: '#f1e4b8' },
+    examina: { icon: 'pointer', tint: '#d4e2dc' },
+    portfolio: { icon: 'layout', tint: '#d9dcef' }
   };
 
   function projectArt(p) {
-    const art = ART[p.slug] || { icon: 'cpu', tint: '#fbd9e0' };
+    const art = ART[p.slug] || { icon: 'cpu', tint: '#dde3f2' };
     const chips = (p.stack || []).slice(0, 3).map((t) => `<li>${esc(t)}</li>`).join('');
     return `
       <div class="art-card" style="--tint:${art.tint}" aria-hidden="true">
@@ -292,21 +292,22 @@
     });
   }
 
-  /* ---------- Sakura burst on click (fine pointers, motion allowed) ---------- */
+  /* ---------- Spark burst on click (fine pointers, motion allowed) ---------- */
   if (window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.addEventListener('click', (e) => {
       for (let i = 0; i < 6; i++) {
-        const petal = document.createElement('span');
+        const spark = document.createElement('span');
         const angle = (Math.PI * 2 * i) / 6 + Math.random() * 0.6;
         const dist = 26 + Math.random() * 22;
-        petal.className = 'petal';
-        petal.style.left = e.clientX + 'px';
-        petal.style.top = e.clientY + 'px';
-        petal.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
-        petal.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
-        petal.style.setProperty('--rot', Math.round(Math.random() * 240 - 120) + 'deg');
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 750);
+        spark.className = 'spark';
+        spark.style.left = e.clientX + 'px';
+        spark.style.top = e.clientY + 'px';
+        spark.style.background = i % 2 ? 'var(--sun)' : 'var(--accent)';
+        spark.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+        spark.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+        spark.style.setProperty('--rot', Math.round(Math.random() * 240 - 120) + 'deg');
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 750);
       }
     });
   }
@@ -332,6 +333,63 @@
   window.addEventListener('scroll', updateActiveNav, { passive: true });
   window.addEventListener('resize', updateActiveNav);
   updateActiveNav();
+
+  /* ---------- Stats count-up and scroll progress ---------- */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const facts = document.querySelector('.facts');
+  if (facts && 'IntersectionObserver' in window && !reduceMotion) {
+    facts.classList.add('animate-ready');
+    const counters = facts.querySelectorAll('b[data-target]');
+    counters.forEach((el) => (el.textContent = '0'));
+    const countObserver = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        countObserver.disconnect();
+        facts.classList.add('in');
+        counters.forEach((el) => {
+          const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+          const start = performance.now();
+          const duration = 1100;
+          const tick = (now) => {
+            const t = Math.min((now - start) / duration, 1);
+            el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        });
+      },
+      { threshold: 0.4 }
+    );
+    countObserver.observe(facts);
+  }
+
+  const progress = document.getElementById('progress');
+  if (progress) {
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? Math.min(window.scrollY / max, 1) : 0})`;
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+  }
+
+  /* ---------- Hero photo parallax (mouse only, motion allowed) ---------- */
+  const heroArt = document.querySelector('.hero-art');
+  const heroSection = document.querySelector('.hero');
+  if (heroArt && heroSection && window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const r = heroArt.getBoundingClientRect();
+      const x = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
+      const y = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
+      heroArt.style.setProperty('--px', Math.max(-1, Math.min(1, x * 2)).toFixed(3));
+      heroArt.style.setProperty('--py', Math.max(-1, Math.min(1, y * 2)).toFixed(3));
+    });
+    heroSection.addEventListener('mouseleave', () => {
+      heroArt.style.setProperty('--px', '0');
+      heroArt.style.setProperty('--py', '0');
+    });
+  }
 
   paintIcons();
   observeReveals();
