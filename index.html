@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jitin Kumar Sengar · Agentic AI Engineer</title>
+<meta name="description" content="Jitin Kumar Sengar builds AI agents that think, see, listen and act. Creator of the open-source Autourgos agent framework.">
+<meta property="og:title" content="Jitin Kumar Sengar · Agentic AI Engineer">
+<meta property="og:description" content="Creator of Autourgos, an open-source Python framework for LLM agents, computer-use, memory and voice.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top">jitin<span>.dev</span></a>
+  <nav>
+    <a class="hide-m" href="#about">about</a>
+    <a href="#autourgos">autourgos</a>
+    <a href="#projects">projects</a>
+    <a class="hide-m" href="#skills">skills</a>
+    <a href="#contact">contact</a>
+    <button class="icon-btn" id="theme" aria-label="Toggle theme">◐</button>
+  </nav>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <div class="label">// agentic ai engineer</div>
+    <h1>I build AI agents that <em>think, see, listen</em> and act.</h1>
+    <p class="lead">Creator of <b>Autourgos</b> — an open-source, zero-dependency Python framework for LLM agents, computer-use, memory, voice and human-in-the-loop control.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/devxjitin" target="_blank" rel="noopener">View Autourgos on GitHub</a>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+    <div class="socials">
+      <a href="https://github.com/devxjitin" target="_blank" rel="noopener">github</a>
+      <a href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener">linkedin</a>
+      <a href="mailto:devxjitin@gmail.com">email</a>
+    </div>
+  </div>
+  <div class="term" aria-hidden="true">
+    <div class="term-bar"><i></i><i></i><i></i><span>autourgos-agent · run</span></div>
+    <pre id="trace"></pre>
+  </div>
+</div></section>
+
+<section id="about" class="about"><div class="wrap about-grid">
+  <div class="reveal">
+    <div class="label">01 // about</div>
+    <h2>Building agents, end to end</h2>
+    <p>I'm Jitin, a BCA graduate focused on Agentic AI. I design the full stack of an agent: the reasoning loop, the tools it calls, the memory it keeps, and the voice and vision it uses to interact with people and computers.</p>
+    <p>My work spans an open-source agent framework, computer-use tools, realtime voice assistants on Gemini Live, RAG pipelines, and production web platforms built with FastAPI, PostgreSQL and Next.js.</p>
+  </div>
+  <div class="stats reveal">
+    <div class="stat"><b>19</b><span>Autourgos repositories</span></div>
+    <div class="stat"><b>26</b><span>public repositories</span></div>
+    <div class="stat"><b>3</b><span>languages: Python, TS, Kotlin</span></div>
+    <div class="stat"><b>0</b><span>third-party deps in the agent core</span></div>
+  </div>
+</div></section>
+
+<section id="autourgos"><div class="wrap">
+  <div class="label">02 // flagship</div>
+  <h2>Autourgos</h2>
+  <div class="flag reveal">
+    <p style="color:var(--muted);max-width:680px">A modular agent framework where every piece — LLM client, memory, skills, human interrupts, computer-use tools, speech — is its own small package. Bring any OpenAI-compatible LLM; no lock-in.</p>
+    <div class="flag-grid">
+      <ul>
+        <li>Thought → Action → Observation loop with native tool-calling mode</li>
+        <li>Async everywhere, parallel tool calls</li>
+        <li>11 lifecycle hooks and approval gates for human-in-the-loop</li>
+        <li>Works with OpenAI, Groq, Mistral, DeepSeek, Ollama, vLLM and more</li>
+      </ul>
+      <div class="code"><span class="c"># install</span>
+pip install autourgos-agent</div>
+    </div>
+    <div class="btns" style="margin-top:22px">
+      <a class="btn primary" href="autourgos.html">Explore the ecosystem</a>
+      <a class="btn" href="project.html?p=autourgos-agent">Agent case study</a>
+    </div>
+  </div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+  <div class="label">03 // work</div>
+  <h2>Featured projects</h2>
+  <div class="grid" id="featured"></div>
+  <h2 style="margin-top:56px;font-size:22px">More projects</h2>
+  <div class="grid" id="more"></div>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <div class="label">04 // stack</div>
+  <h2>Skills</h2>
+  <div class="skills">
+    <div class="skill reveal"><h3>agentic ai</h3><div class="tags"><span class="tag">ReAct agents</span><span class="tag">tool calling</span><span class="tag">middleware</span><span class="tag">memory</span><span class="tag">RAG</span><span class="tag">human-in-the-loop</span><span class="tag">computer-use</span></div></div>
+    <div class="skill reveal"><h3>llm &amp; realtime</h3><div class="tags"><span class="tag">OpenAI APIs</span><span class="tag">Gemini Live</span><span class="tag">Gemini vision</span><span class="tag">Whisper</span><span class="tag">WebSocket streaming</span></div></div>
+    <div class="skill reveal"><h3>backend</h3><div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span><span class="tag">Docker</span></div></div>
+    <div class="skill reveal"><h3>frontend &amp; mobile</h3><div class="tags"><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Next.js</span><span class="tag">Tailwind</span><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span></div></div>
+  </div>
+</div></section>
+
+<section id="contact"><div class="wrap reveal">
+  <div class="label">05 // contact</div>
+  <h2>Let's build something</h2>
+  <p class="lead" style="margin-top:0">Open to Agentic AI roles, collaborations and freelance work.</p>
+  <div class="btns">
+    <a class="btn primary" href="mailto:devxjitin@gmail.com">devxjitin@gmail.com</a>
+    <a class="btn" href="https://www.linkedin.com/in/devxjitin" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://github.com/devxjitin" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Jitin Kumar Sengar</span><span>built with plain HTML, CSS and JS</span></div></footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
