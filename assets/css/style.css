@@ -547,3 +547,9 @@ h1, h2, h3, h4 { letter-spacing: -0.01em; }
 @supports not selector(::-webkit-scrollbar) {
   html { scrollbar-width: thin; scrollbar-color: var(--accent) var(--ink); }
 }
+
+/* ULTRON phone screenshots */
+.phone-shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.phone-shots .shot { aspect-ratio: 9/19.5; border: 2px solid var(--ink); border-radius: 8px; }
+.phone-shots .shot img { border: 0; border-radius: 0; object-position: top; }
+@media (max-width: 560px) { .phone-shots { grid-template-columns: repeat(2, 1fr); } }

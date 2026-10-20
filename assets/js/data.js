@@ -51,19 +51,23 @@ window.PROJECTS = [
   {
     slug: "ultron",
     name: "ULTRON",
-    jpName: "電脳執事 · デスクトップ自動化",
+    jpName: "電脳執事 · モバイルAI",
     tier: "SSR",
-    badge: "AUTONOMOUS OS",
+    badge: "VOICE + CHAT AI",
     category: "agentic",
-    pitch: "Voice-controlled Windows desktop assistant with real-time vision, screen understanding, and system automation.",
-    stack: ["Python", "Computer Vision", "Speech-to-Text", "Windows Automation"],
-    repo: GH + "/ULTRON",
+    pitch: "Android voice and chat AI assistant with Gemini Live, cloud MCP connectors, long-term memory and on-device RAG.",
+    stack: ["Kotlin", "Jetpack Compose", "Gemini Live", "MCP", "RAG", "AWS Lambda"],
+    repo: GH + "/ultron-android",
     featured: true,
-    stats: { os: "Windows 11", input: "Voice + Screen", tech: "CV + STT" },
-    problem: "Controlling a desktop hands-free requires seamless integration of live speech recognition, real-time screen coordinate resolution, and robotic OS automation.",
-    built: "A Windows desktop copilot that listens to verbal instructions, parses on-screen elements via computer vision, and autonomously triggers keyboard, mouse, and system actions.",
+    stats: { os: "Android 8+", input: "Voice + Chat", tech: "Gemini + MCP" },
+    problem: "A phone assistant has to feel instant by voice, stay useful in text, reach real services like Gmail and Calendar, and remember the user, without handing everything to one cloud account.",
+    built: "A native Android app with a real-time Gemini Live voice mode and a streaming chat mode (images, video, PDF and DOCX attachments). It calls tools through MCP connectors hosted on AWS Lambda, remembers facts about the user, and answers from their own documents with hybrid BM25 + embedding search.",
     decisions: [
-      "Combines continuous speech recognition, multi-scale screen understanding, and precision desktop automation in a unified Python runtime."
+      "Voice runs over Gemini Live; chat streams from Gemini or Azure OpenAI, and both share the same memory, knowledge base and personalization.",
+      "Tools live in small MCP servers on AWS Lambda (Google Workspace, YouTube search, updates), so the app stays light and connectors can change without a new release.",
+      "Retrieval combines BM25 and gemini-embedding-2 vectors with reciprocal rank fusion, stored on-device in ObjectBox.",
+      "Updates ship over the air: a private S3 bucket with Transfer Acceleration, a SHA-256 check and prefetch on Wi-Fi, so a new build installs in seconds.",
+      "Everything is controllable in-app: personalization (tone, warmth, emoji), library of uploaded files, chat search, usage stats and storage cleanup."
     ]
   },
   {

@@ -117,10 +117,21 @@
           p.private ? `<span class="private-note">${icon('lock')} Private project. Happy to walk you through it.</span>` : ''
         ].join('');
 
+        const ULTRON_SHOTS = [
+          ['home', 'ULTRON home screen'],
+          ['voice', 'ULTRON live voice mode'],
+          ['chat', 'ULTRON chat with a streamed answer'],
+          ['personalization', 'ULTRON personalization settings']
+        ];
         const art =
           p.slug === 'campusgrade'
             ? `<img src="${CAMPUS_IMG}" alt="CampusGrade teacher dashboard screenshot" loading="lazy">`
-            : projectArt(p);
+            : p.slug === 'ultron'
+              ? `<div class="phone-shots">${ULTRON_SHOTS.map(
+                  ([f, alt]) =>
+                    `<button type="button" class="shot" data-full="assets/images/ultron/${f}.png"><img src="assets/images/ultron/${f}.png" alt="${alt}" loading="lazy"></button>`
+                ).join('')}</div>`
+              : projectArt(p);
 
         return `
           <article class="project reveal">
